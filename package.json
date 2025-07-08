@@ -1,0 +1,49 @@
+{
+  "name": "investor-intelligence-mcp",
+  "version": "1.0.0",
+  "description": "Intelligent stock portfolio monitoring MCP server that automates portfolio tracking, risk analysis, and alert generation",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "clean": "rm -rf dist",
+    "eval": "tsx src/evaluation/run-evaluations.ts",
+    "docker:build": "docker build -t investor-intelligence-mcp .",
+    "docker:run": "docker run -p 3000:3000 investor-intelligence-mcp"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "finance",
+    "portfolio",
+    "stocks",
+    "automation",
+    "investment",
+    "monitoring",
+    "alerts",
+    "yahoo-finance",
+    "google-sheets",
+    "gmail"
+  ],
+  "author": "Minh Le <anhminh7802@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anonymousminh/investor-intelligence-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anonymousminh/investor-intelligence-mcp/issues"
+  },
+  "homepage": "https://github.com/anonymousminh/investor-intelligence-mcp#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

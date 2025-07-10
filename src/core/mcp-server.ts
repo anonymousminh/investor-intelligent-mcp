@@ -20,6 +20,37 @@ export class MCPServer {
                     // Handle incoming MCP protocol data here
                     console.log('Received data:', data.toString());
                     // TODO: Parse and respond according to MCP protocol
+                    try {
+                        const message = JSON.parse(data.toString());
+
+                        // Basic validation of message type
+                        if (!message.type) {
+                            socket.write(JSON.stringify({ error: 'Missing message type' }));
+                            return;
+                        }
+                        
+                        // Route to appropriate handler based on message type
+                        switch (message.type) {
+                            case 'initialize':
+                                this.handleInitialize(data, socket);
+                                break;
+                            case 'listTools':
+                                this.handleListTools(data, socket);
+                                break;
+                            case 'callTool':
+                                this.handleCallTool(data, socket);
+                                break;
+                            case 'listResources':
+                                this.handleListResources(data, socket);
+                                break;
+                            default:
+                                socket.write(JSON.stringify({ error: `Unknown message type: ${message.type}` }));
+
+                        }
+                    } catch (err) {
+                        socket.write(JSON.stringify({ error: 'Invalid message format' }));
+                        console.error('Malformed message received:', data.toString(), err);
+                    }
                 });
 
                 socket.on('end', () => {

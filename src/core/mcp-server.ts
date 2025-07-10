@@ -18,14 +18,15 @@ export class MCPServer {
 
                 socket.on('data', (data) => {
                     // Handle incoming MCP protocol data here
-                    console.log('Received data:', data.toString());
-                    // TODO: Parse and respond according to MCP protocol
+                    console.log('[MCP INCOMING]', data.toString());
                     try {
                         const message = JSON.parse(data.toString());
 
                         // Basic validation of message type
                         if (!message.type) {
-                            socket.write(JSON.stringify({ error: 'Missing message type' }));
+                            const errorMsg = JSON.stringify({ error: 'Missing message type' });
+                            console.error('Error: Missing message type in received data:', data.toString());
+                            socket.write(errorMsg);
                             return;
                         }
                         
@@ -44,11 +45,14 @@ export class MCPServer {
                                 this.handleListResources(data, socket);
                                 break;
                             default:
-                                socket.write(JSON.stringify({ error: `Unknown message type: ${message.type}` }));
-
+                                const unknownMsg = JSON.stringify({ error: `Unknown message type: ${message.type}` });
+                                console.log('[MCP OUTGOING]', unknownMsg);
+                                socket.write(unknownMsg);
                         }
                     } catch (err) {
-                        socket.write(JSON.stringify({ error: 'Invalid message format' }));
+                        const errorMsg = JSON.stringify({ error: 'Invalid message format' });
+                        console.error('[MCP OUTGOING]', errorMsg);
+                        socket.write(errorMsg);
                         console.error('Malformed message received:', data.toString(), err);
                     }
                 });

@@ -1,10 +1,14 @@
 import * as net from 'net';
 
+export interface MCPServerConfig {
+    port?: number; // Port on which the MCP server will listen
+    host?: string; // Hostname or IP address to bind the server to
+}
 export class MCPServer {
-    private config: any;
+    private config: MCPServerConfig;
     private server: net.Server | null = null;
 
-    constructor(config: any) {
+    constructor(config: MCPServerConfig) {
         this.config = config;
     }
 

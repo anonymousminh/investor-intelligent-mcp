@@ -47,6 +47,7 @@
     "npm": ">=8.0.0"
   },
   "devDependencies": {
-    "@types/node": "^24.0.12"
+    "@types/node": "^24.0.12",
+    "jest": "^30.0.4"
   }
 }

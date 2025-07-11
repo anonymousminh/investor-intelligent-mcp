@@ -6,15 +6,41 @@ export interface MCPServerConfig {
     // Add more config options as needed
 }
 
+class ConfigValidationError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'ConfigValidationError';
+    }
+}
+
+/**
+ * Validates the MCP server configuration parameters.
+ * Throws ConfigValidationError if validation fails.
+ */
+function validateMCPServerConfig(config: MCPServerConfig): void {
+    if (typeof config.port !== 'number' || isNaN(config.port)) {
+        throw new ConfigValidationError('Invalid or missing port number in MCPServerConfig.');
+    }
+    if (config.port < 1 || config.port > 65535) {
+        throw new ConfigValidationError('Port number must be between 1 and 65535.');
+    }
+    if (typeof config.host !== 'string' || config.host.trim() === '') {
+        throw new ConfigValidationError('Invalid or missing host in MCPServerConfig.');
+    }
+}
+
 /**
  * Loads MCP server configuration from environment variables with sensible defaults.
+ * Validates the configuration before returning.
  */
 function loadMCPServerConfig(): MCPServerConfig {
-    return {
+    const config: MCPServerConfig = {
         port: process.env.MCP_SERVER_PORT ? parseInt(process.env.MCP_SERVER_PORT, 10) : 9000,
         host: process.env.MCP_SERVER_HOST || '127.0.0.1',
         // Add more config options and defaults here
     };
+    validateMCPServerConfig(config);
+    return config;
 }
 
 export class MCPServer {

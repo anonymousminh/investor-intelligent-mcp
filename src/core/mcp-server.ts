@@ -1,5 +1,8 @@
 import * as net from 'net';
 
+// Load environment variables for server configuration
+const MCP_PORT = process.env.MCP_SERVER_PORT ? parseInt(process.env.MCP_SERVER_PORT, 10) : 9000;
+const MCP_HOST = process.env.MCP_SERVER_HOST || '127.0.0.1';
 export interface MCPServerConfig {
     port?: number; // Port on which the MCP server will listen
     host?: string; // Hostname or IP address to bind the server to
@@ -8,8 +11,11 @@ export class MCPServer {
     private config: MCPServerConfig;
     private server: net.Server | null = null;
 
-    constructor(config: MCPServerConfig) {
-        this.config = config;
+    constructor(config?: MCPServerConfig) {
+        this.config = {
+            port: config?.port ?? MCP_PORT,
+            host: config?.host ?? MCP_HOST
+        };
     }
 
     /**

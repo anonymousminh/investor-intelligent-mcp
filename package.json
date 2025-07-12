@@ -60,5 +60,8 @@
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "typescript-eslint": "^8.36.0"
+  },
+  "dependencies": {
+    "yahoo-finance2": "^2.13.3"
   }
 }
